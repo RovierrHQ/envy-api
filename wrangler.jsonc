@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "envy-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-21",
+  "workers_dev": true,
+  // Attach after rovierr.com is on this account:
+  // "routes": [{ "pattern": "envy.rovierr.com", "custom_domain": true }],
+  "observability": { "enabled": true },
+  "vars": {
+    "BETTER_AUTH_URL": "https://envy-api.rovierr.workers.dev"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "envy",
+      "database_id": "a823345c-7ccf-4ac3-a47e-02d3fdf13aaa",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

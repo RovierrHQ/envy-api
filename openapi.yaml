@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: envy API
+  version: 0.1.0
+  description: Zero-knowledge ciphertext store. Salt and keys never leave the client.
+servers:
+  - url: https://envy.rovierr.com
+  - url: https://envy-api.rovierr.workers.dev
+paths:
+  /v1/device/code:
+    post:
+      summary: Start device login
+      responses:
+        "200":
+          description: Device and user codes
+  /v1/device/token:
+    post:
+      summary: Poll for a minted PAT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [device_code]
+              properties:
+                device_code: { type: string }
+      responses:
+        "200":
+          description: PAT
+        "400":
+          description: authorization_pending, expired_token, or access_denied
+  /v1/projects:
+    post:
+      security: [{ pat: [] }]
+      summary: Create a project and owner membership
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project_id: { type: string }
+  /v1/projects/{id}/secrets/{env}:
+    put:
+      security: [{ pat: [] }]
+      summary: Upsert ciphertext if version matches
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - { name: env, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ciphertext, version]
+              properties:
+                ciphertext: { type: string, description: base64 envy1 envelope }
+                version: { type: integer, description: last known version, 0 if new }
+      responses:
+        "200":
+          description: Stored
+        "409":
+          description: Stale version
+        "413":
+          description: Ciphertext over 256 KiB
+    get:
+      security: [{ pat: [] }]
+      summary: Fetch ciphertext and version
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - { name: env, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Bundle
+        "404":
+          description: Missing
+  /v1/projects/{id}/invites:
+    post:
+      security: [{ pat: [] }]
+      summary: Owner creates a 48h single-use invite
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role]
+              properties:
+                role: { type: string, enum: [read, write] }
+      responses:
+        "201":
+          description: Invite code (shown once)
+  /v1/invites/accept:
+    post:
+      security: [{ pat: [] }]
+      summary: Redeem an invite into project membership
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string }
+      responses:
+        "200":
+          description: Joined
+components:
+  securitySchemes:
+    pat:
+      type: http
+      scheme: bearer
+      bearerFormat: envy_pat

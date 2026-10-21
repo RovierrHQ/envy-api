@@ -4,6 +4,7 @@ import { requirePat } from "../middleware/pat";
 import { acceptInvite, createInvite } from "../services/invite.service";
 import { memberRole } from "../services/project.service";
 import { createProject } from "../services/project.service";
+import { QuotaError, assertWriteAllowed } from "../services/quota.service";
 import { ConflictError, PayloadTooLarge, getSecret, putSecret } from "../services/secret.service";
 import { pollDevice, startDevice } from "../services/device.service";
 
@@ -32,8 +33,13 @@ export function v1Routes() {
 
   authed.post("/projects", async (c) => {
     const body = await c.req.json<{ name?: string }>().catch(() => ({ name: "" }));
-    const created = await createProject(c.get("db"), c.get("userId"), body.name ?? "");
-    return c.json(created, 201);
+    try {
+      const created = await createProject(c.get("db"), c.get("userId"), body.name ?? "");
+      return c.json(created, 201);
+    } catch (err) {
+      if (err instanceof QuotaError) return c.json({ error: err.message }, err.status);
+      throw err;
+    }
   });
 
   authed.put("/projects/:id/secrets/:env", async (c) => {
@@ -48,11 +54,13 @@ export function v1Routes() {
       return c.json({ error: "ciphertext and version required" }, 400);
     }
     try {
+      await assertWriteAllowed(c.get("db"), c.get("userId"));
       const version = await putSecret(c.get("db"), projectId, environment, body.ciphertext, body.version, c.get("userId"));
       return c.json({ ciphertext: body.ciphertext, version });
     } catch (err) {
       if (err instanceof ConflictError) return c.json({ version: err.remoteVersion, error: "conflict" }, 409);
       if (err instanceof PayloadTooLarge) return c.json({ error: err.message }, 413);
+      if (err instanceof QuotaError) return c.json({ error: err.message }, err.status);
       throw err;
     }
   });

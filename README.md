@@ -47,7 +47,7 @@ npx wrangler d1 migrations apply envy --remote
 npm run deploy
 ```
 
-Custom domain: uncomment the `envy.rovierr.com` route after the zone is on this Cloudflare account, set `BETTER_AUTH_URL`, and redeploy. This account currently has no zones, so v1 staging stays on `workers.dev`.
+The public origin is `https://envy-api.rovierr.workers.dev`. Hosted limits are 5 projects created per user, 30 secret writes per 10 minutes, and 256 KiB per blob. Self-host by cloning this repo onto your own Cloudflare account.
 
 ## HTTP
 

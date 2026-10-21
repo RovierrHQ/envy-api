@@ -118,6 +118,14 @@ export const invites = sqliteTable("invites", {
   usedBy: text("used_by"),
 });
 
+export const writeLog = sqliteTable("write_log", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  createdAt: integer("created_at").notNull(),
+});
+
 export const deviceGrants = sqliteTable("device_grants", {
   id: text("id").primaryKey(),
   deviceCodeHash: text("device_code_hash").notNull().unique(),

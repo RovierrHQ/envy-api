@@ -2,10 +2,12 @@ import { and, eq } from "drizzle-orm";
 import type { DB } from "../db";
 import { projectMembers, projects } from "../db/schema";
 import { newId } from "../lib/tokens";
+import { assertCanCreateProject } from "./quota.service";
 
 export type Role = "owner" | "write" | "read";
 
 export async function createProject(db: DB, userId: string, name: string) {
+  await assertCanCreateProject(db, userId);
   const id = newId();
   const now = Date.now();
   await db.batch([

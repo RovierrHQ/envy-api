@@ -1,6 +1,10 @@
+import { demoPlayerStyles } from "./demo-player";
+
 const RELEASE = "https://github.com/RovierrHQ/envy/releases/latest";
 
-export function layout(title: string, body: string) {
+export function layout(title: string, body: string, opts?: { styles?: string; scripts?: string }) {
+  const extraStyles = opts?.styles ?? "";
+  const scripts = opts?.scripts ?? "";
   return `<!doctype html>
 <html lang="en">
 <meta charset="utf-8">
@@ -39,6 +43,8 @@ export function layout(title: string, body: string) {
   ul { padding-left:1.1rem; }
   li { margin:.35rem 0; color:var(--muted); }
   .err { color:#ffb4a8; }
+  ${demoPlayerStyles}
+  ${extraStyles}
 </style>
 <header>
   <a class="mark" href="/">ENVY</a>
@@ -53,6 +59,7 @@ export function layout(title: string, body: string) {
 ${body}
 </main>
 <footer>Free hosted API on this origin. Heavy use should <a href="/docs#self-host">self-host</a>.</footer>
+${scripts}
 </html>`;
 }
 

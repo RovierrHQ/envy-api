@@ -1,5 +1,6 @@
 import type { Hono } from "hono";
 import type { AppEnv } from "../types";
+import { demoPlayerMarkup, demoPlayerScript } from "./demo-player";
 import { layout, releaseUrl } from "./layout";
 
 export function mountMarketing(pages: Hono<AppEnv>) {
@@ -11,16 +12,17 @@ export function mountMarketing(pages: Hono<AppEnv>) {
         <h1>Secrets stay on your machine.</h1>
         <p class="lede">envy encrypts <code>.env</code> files before they leave the laptop. This server stores ciphertext, a version, and who may read it. The passphrase never arrives.</p>
         <div class="row">
-          <a class="btn primary" href="${releaseUrl}">Download</a>
+          <a class="btn primary" href="#envy-demo">Watch the walkthrough</a>
           <a class="btn" href="/docs">Read the docs</a>
-          <a class="btn" href="/settings/tokens">Sign in</a>
+          <a class="btn" href="${releaseUrl}">Releases</a>
         </div>
-        <pre>go install github.com/RovierrHQ/envy/cmd/envy@latest</pre>
+        ${demoPlayerMarkup}
         <div class="grid">
           <section class="card"><h2>Lock</h2><p>A shared passphrase is stretched with Argon2id. The 32-byte key sits in the OS keychain.</p></section>
           <section class="card"><h2>Ship</h2><p><code>envy push</code> sends an <code>envy1</code> AES-GCM envelope. A stale version is rejected.</p></section>
           <section class="card"><h2>Invite</h2><p>Owners mint a 48-hour code for read or write. Accepting it requires your own login.</p></section>
         </div>`,
+        { scripts: `<script>${demoPlayerScript}</script>` },
       ),
     ),
   );
@@ -33,14 +35,17 @@ export function mountMarketing(pages: Hono<AppEnv>) {
         <h1>Use the hosted API, or run your own.</h1>
         <div class="prose">
           <h2>Install</h2>
-          <p>Download a binary from <a href="${releaseUrl}">GitHub Releases</a>, or:</p>
-          <pre>go install github.com/RovierrHQ/envy/cmd/envy@latest</pre>
+          <p>macOS / Linux:</p>
+          <pre>curl -fsSL https://raw.githubusercontent.com/RovierrHQ/envy/main/scripts/install.sh | sh</pre>
+          <p>Windows (PowerShell):</p>
+          <pre>irm https://raw.githubusercontent.com/RovierrHQ/envy/main/scripts/install.ps1 | iex</pre>
+          <p>Or <a href="${releaseUrl}">GitHub Releases</a>, Homebrew, or Scoop — see the <a href="https://github.com/RovierrHQ/envy#install">CLI README</a>.</p>
           <h2>Hosted</h2>
           <pre>envy login
-envy init --api-url https://envy-api.rovierr.workers.dev --register
+envy init
 envy push --env dev
 envy pull --env dev</pre>
-          <p><code>envy login</code> prints a code and opens <a href="/device">/device</a>. Approving it stores a personal access token. You can also mint one under <a href="/settings/tokens">Sign in</a> and run <code>envy login --token</code>.</p>
+          <p><code>envy init</code> defaults to this hosted API. <code>envy login</code> prints a code and opens <a href="/device">/device</a>. Approving it stores a personal access token. You can also mint one under <a href="/settings/tokens">Tokens</a> and run <code>envy login --token</code>.</p>
           <h2>A second person</h2>
           <pre>envy invite create --role write
 envy invite accept envy_inv_…</pre>

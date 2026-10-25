@@ -136,7 +136,7 @@ export function pageRoutes() {
             const list = document.getElementById('list');
             async function refresh() {
               const rows = await (await fetch('/settings/tokens/list')).json();
-              list.innerHTML = rows.map(r => '<li style="display:flex;gap:1rem;align-items:center;padding:.75rem;margin:.35rem 0;background:#162a17"><code>'+r.prefix+'...'+r.name+'</span> <button class="solid" style="margin:0;background:#243024;color:#fff" data-id="'+r.id+'">Revoke</button></li>').join('');
+              list.innerHTML = rows.map(r => '<li style="display:flex;gap:1rem;align-items:center;padding:.65rem;margin:.3rem 0;background:var(--surface)"><code>'+r.prefix+'... '+r.name+'</code> <button class="solid" style="margin:0;background:var(--field-1);color:var(--field-1-ink)" data-id="'+r.id+'">Revoke</button></li>').join('');
               list.querySelectorAll('button').forEach(b => b.onclick = async () => {
                 await fetch('/settings/tokens/'+b.dataset.id, { method:'DELETE' });
                 refresh();

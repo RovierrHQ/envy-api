@@ -6,3 +6,6 @@ dist/
 *.tsbuildinfo
 .DS_Store
 worker-configuration.d.ts
+.taste-skill/
+assets/
+scripts/fix-encoding.mjs

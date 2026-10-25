@@ -4,37 +4,35 @@ export const demoPlayerStyles = `
   .demo {
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
-    margin: 2.25rem 0 2.75rem;
-    border: 1px solid var(--line);
-    background: #0c0e0b;
+    --demo-line: #243024;
+    margin: 0;
+    background: var(--field-1, #000);
     overflow: hidden;
   }
   .demo-caption {
     display: grid;
     gap: .35rem;
     padding: 1rem 1.1rem .85rem;
-    border-bottom: 1px solid var(--line);
-    background: var(--card);
+    background: var(--surface, #162a17);
   }
   .demo-step {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: var(--step-small, 0.875rem);
     color: var(--accent);
+    margin: 0;
   }
   .demo-title {
-    font-family: "Newsreader", Georgia, serif;
-    font-size: clamp(1.25rem, 2.4vw, 1.55rem);
-    font-weight: 560;
+    font-family: "Stack Sans Headline", system-ui, sans-serif;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 300;
     letter-spacing: -.02em;
     margin: 0;
-    line-height: 1.15;
+    line-height: 1.1;
   }
   .demo-detail {
     margin: 0;
     color: var(--muted);
-    font-size: .98rem;
+    font-size: 1rem;
     max-width: 40rem;
   }
   .demo-run {
@@ -45,37 +43,32 @@ export const demoPlayerStyles = `
     margin-top: .45rem;
   }
   .demo-run label {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: var(--step-small, 0.875rem);
     color: var(--muted);
   }
   .demo-run code {
     font-size: 12.5px;
-    background: #0d0f0c;
-    border: 1px solid var(--line);
+    background: #0a120b;
     padding: .35rem .55rem;
     color: var(--ink);
   }
   .demo-copy {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: var(--step-small, 0.875rem);
     margin: 0;
     padding: .35rem .55rem;
-    border: 1px solid var(--line);
-    background: transparent;
+    border: 0;
+    background: #0a120b;
     color: var(--muted);
     cursor: pointer;
   }
-  .demo-copy:hover { color: var(--ink); border-color: var(--muted); }
+  .demo-copy:hover { color: var(--ink); }
   .demo-copy:active { transform: scale(0.97); }
   .demo-stage-wrap {
     position: relative;
-    height: min(420px, 58vw);
-    background:
-      radial-gradient(120% 80% at 50% -10%, #1c2216 0%, transparent 55%),
-      #0a0c09;
+    height: min(400px, 56vw);
+    background: #0a120b;
     overflow: hidden;
   }
   .demo-stage {
@@ -89,33 +82,30 @@ export const demoPlayerStyles = `
   }
   .demo-machine {
     width: min(92%, 640px);
-    border: 1px solid var(--line);
-    background: #121510;
-    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    background: #121910;
     transition: opacity 400ms var(--ease-out), transform 700ms var(--ease-move);
   }
-  .demo-machine[data-who="teammate"] { border-color: #3a4034; }
+  .demo-machine[data-who="teammate"] { outline: 1px solid #3a4a3a; }
   .demo-chrome {
     display: flex;
     align-items: center;
     gap: .45rem;
     padding: .55rem .75rem;
-    border-bottom: 1px solid var(--line);
-    background: #161914;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
+    background: #162216;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: 13px;
     color: var(--muted);
   }
-  .demo-dot { width: 8px; height: 8px; border-radius: 50%; background: #3a4034; }
+  .demo-dot { width: 8px; height: 8px; border-radius: 50%; background: #3a4a3a; }
   .demo-dot:nth-child(1) { background: #ff5f57; }
   .demo-dot:nth-child(2) { background: #febc2e; }
   .demo-dot:nth-child(3) { background: #28c840; }
-  .demo-chrome-title { margin-left: .35rem; letter-spacing: .04em; }
+  .demo-chrome-title { margin-left: .35rem; }
   .demo-term {
     margin: 0;
     padding: .85rem 1rem 1.1rem;
     min-height: 210px;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; /* taste-skill-ignore: data-ui terminal body */
     font-size: 12.5px;
     line-height: 1.55;
     color: #d8d4c8;
@@ -123,8 +113,8 @@ export const demoPlayerStyles = `
     word-break: break-word;
   }
   .demo-term .prompt { color: var(--accent); }
-  .demo-term .dim { color: #7a766c; }
-  .demo-term .ok { color: #b7e36a; }
+  .demo-term .dim { color: #7a8a7a; }
+  .demo-term .ok { color: var(--accent); }
   .demo-term .warn { color: #e6c07b; }
   .demo-term .cursor {
     display: inline-block;
@@ -142,23 +132,21 @@ export const demoPlayerStyles = `
     align-items: center;
     gap: .55rem;
     padding: .7rem 1rem;
-    border-top: 1px solid var(--line);
-    background: var(--card);
+    background: var(--surface, #162a17);
   }
   .demo-transport button {
     margin: 0;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 12px;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: var(--step-small, 0.875rem);
     padding: .45rem .7rem;
-    border: 1px solid var(--line);
-    background: #121510;
+    border: 0;
+    background: #0a120b;
     color: var(--ink);
     cursor: pointer;
   }
   .demo-transport button.primary {
     background: var(--accent);
-    color: #14160f;
-    border-color: var(--accent);
+    color: var(--accent-ink, #0f1f10);
   }
   .demo-transport button:active:not(:disabled) { transform: scale(0.97); }
   .demo-transport button:disabled { opacity: .45; cursor: default; }
@@ -166,7 +154,7 @@ export const demoPlayerStyles = `
     flex: 1;
     min-width: 120px;
     height: 3px;
-    background: var(--line);
+    background: #243024;
     overflow: hidden;
   }
   .demo-progress > i {
@@ -183,21 +171,18 @@ export const demoPlayerStyles = `
     width: 100%;
   }
   .demo-pill {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 10px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    padding: .25rem .45rem;
-    border: 1px solid transparent;
-    color: #6f6b61;
+    font-family: "Stack Sans Text", system-ui, sans-serif;
+    font-size: var(--step-small, 0.875rem);
+    padding: .3rem .5rem;
+    border: 0;
+    color: #6f7b6f;
     background: transparent;
     cursor: pointer;
     margin: 0;
   }
   .demo-pill[aria-current="true"] {
-    color: var(--ink);
-    border-color: var(--line);
-    background: #121510;
+    color: var(--accent-ink, #0f1f10);
+    background: var(--accent);
   }
   @media (prefers-reduced-motion: reduce) {
     .demo-stage, .demo-machine, .demo-progress > i { transition: none !important; }
@@ -206,13 +191,13 @@ export const demoPlayerStyles = `
 `;
 
 export const demoPlayerMarkup = `
-<figure class="demo" id="envy-demo" aria-label="Interactive envy terminal walkthrough">
+<figure class="demo" id="envy-demo" data-ui aria-label="Interactive envy terminal walkthrough">
   <figcaption class="demo-caption">
-    <div class="demo-step" data-demo-step>Step 1 of 7</div>
+    <p class="demo-step" data-demo-step>Part 1 of 7</p>
     <h2 class="demo-title" data-demo-title>Install the CLI</h2>
     <p class="demo-detail" data-demo-detail>One-liner. No Go toolchain required.</p>
     <div class="demo-run">
-      <label>Run</label>
+      <label>Run this</label>
       <code data-demo-cmd></code>
       <button type="button" class="demo-copy" data-demo-copy>Copy</button>
     </div>
@@ -222,7 +207,7 @@ export const demoPlayerMarkup = `
       <div class="demo-machine" data-demo-machine data-who="you">
         <div class="demo-chrome">
           <span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span>
-          <span class="demo-chrome-title" data-demo-who>you@laptop — zsh</span>
+          <span class="demo-chrome-title" data-demo-who>you@laptop - zsh</span>
         </div>
         <pre class="demo-term" data-demo-term aria-live="polite"></pre>
       </div>
@@ -279,7 +264,7 @@ export const demoPlayerScript = `
     },
     {
       title: "Sign in to the hosted API",
-      detail: "Device login opens a browser. Approve the code — the CLI stores a token in your OS keychain.",
+      detail: "Device login opens a browser. Approve the code. The CLI stores a token in your OS keychain.",
       cmd: "envy login",
       who: "you",
       zoom: { s: 1.35, x: 0, y: 18 },
@@ -287,7 +272,7 @@ export const demoPlayerScript = `
         { kind: "in", text: "envy login" },
         { kind: "out", text: "Open https://envy-api.rovierr.workers.dev/device" },
         { kind: "warn", text: "Code: WX7K-9P2M" },
-        { kind: "dim", text: "Waiting for approval…" },
+        { kind: "dim", text: "Waiting for approval..." },
         { kind: "ok", text: "Logged in; token stored in OS keyring" },
       ],
       hold: 1400,
@@ -301,9 +286,9 @@ export const demoPlayerScript = `
       lines: [
         { kind: "dim", text: "~/acme-api" },
         { kind: "in", text: "envy init" },
-        { kind: "dim", text: "Project passphrase: ••••••••" },
-        { kind: "dim", text: "Confirm passphrase: ••••••••" },
-        { kind: "ok", text: "Initialized .envy.json (project_id=prj_8f2a…)" },
+        { kind: "dim", text: "Project passphrase: ********" },
+        { kind: "dim", text: "Confirm passphrase: ********" },
+        { kind: "ok", text: "Initialized .envy.json (project_id=prj_8f2a...)" },
         { kind: "dim", text: "Share the passphrase out-of-band (1Password), never in git." },
       ],
       hold: 1500,
@@ -315,9 +300,9 @@ export const demoPlayerScript = `
       who: "you",
       zoom: { s: 1.4, x: 6, y: 22 },
       lines: [
-        { kind: "in", text: "printf 'DATABASE_URL=postgres://…\\\\nSTRIPE_KEY=sk_…\\\\n' > .env" },
+        { kind: "in", text: "printf 'DATABASE_URL=postgres://...\nSTRIPE_KEY=sk_...\n' > .env" },
         { kind: "in", text: "envy push --env dev" },
-        { kind: "ok", text: "Pushed .env → env=dev version=1" },
+        { kind: "ok", text: "Pushed .env -> env=dev version=1" },
       ],
       hold: 1400,
     },
@@ -329,7 +314,7 @@ export const demoPlayerScript = `
       zoom: { s: 1.32, x: 0, y: 14 },
       lines: [
         { kind: "in", text: "envy invite create --role write" },
-        { kind: "ok", text: "Invite envy_inv_3c9k… (expires in 48h)" },
+        { kind: "ok", text: "Invite envy_inv_3c9k... (expires in 48h)" },
         { kind: "dim", text: "Send code + passphrase via your team vault." },
       ],
       hold: 1300,
@@ -337,29 +322,29 @@ export const demoPlayerScript = `
     {
       title: "Teammate joins",
       detail: "They install envy, log in, accept the invite, then unlock with the shared passphrase.",
-      cmd: "envy invite accept envy_inv_… && envy unlock",
+      cmd: "envy invite accept envy_inv_... && envy unlock",
       who: "teammate",
       zoom: { s: 1.22, x: 0, y: 10 },
       lines: [
         { kind: "dim", text: "# on a second machine, after install + login" },
-        { kind: "in", text: "envy invite accept envy_inv_3c9k…" },
-        { kind: "ok", text: "Joined project prj_8f2a… (role=write)" },
+        { kind: "in", text: "envy invite accept envy_inv_3c9k..." },
+        { kind: "ok", text: "Joined project prj_8f2a...)" },
         { kind: "in", text: "envy unlock" },
-        { kind: "dim", text: "Project passphrase: ••••••••" },
+        { kind: "dim", text: "Project passphrase: ********" },
         { kind: "ok", text: "Project key stored in OS keyring" },
       ],
       hold: 1500,
     },
     {
       title: "Pull secrets locally",
-      detail: "Decrypts onto disk. Commit .envy.json — never commit .env.",
+      detail: "Decrypts onto disk. Commit .envy.json. Never commit .env.",
       cmd: "envy pull --env dev",
       who: "teammate",
       zoom: { s: 1.38, x: -2, y: 20 },
       lines: [
         { kind: "in", text: "git clone git@github.com:acme/api.git && cd api" },
         { kind: "in", text: "envy pull --env dev" },
-        { kind: "ok", text: "Pulled env=dev version=1 → .env" },
+        { kind: "ok", text: "Pulled env=dev version=1 -> .env" },
         { kind: "in", text: "grep -c . .env" },
         { kind: "out", text: "2" },
       ],
@@ -376,7 +361,7 @@ export const demoPlayerScript = `
     const b = document.createElement("button");
     b.type = "button";
     b.className = "demo-pill";
-    b.textContent = String(i + 1).padStart(2, "0") + " " + s.title.split(" ")[0];
+    b.textContent = s.title.split(" ").slice(0, 2).join(" ");
     b.addEventListener("click", () => {
       playing = true;
       el.toggle.textContent = "Pause";
@@ -394,11 +379,11 @@ export const demoPlayerScript = `
   }
 
   function renderCaption(scene, i) {
-    el.step.textContent = "Step " + (i + 1) + " of " + scenes.length;
+    el.step.textContent = "Part " + (i + 1) + " of " + scenes.length;
     el.title.textContent = scene.title;
     el.detail.textContent = scene.detail;
     el.cmd.textContent = scene.cmd;
-    el.who.textContent = scene.who === "teammate" ? "teammate@laptop — zsh" : "you@laptop — zsh";
+    el.who.textContent = scene.who === "teammate" ? "teammate@laptop - zsh" : "you@laptop - zsh";
     el.machine.dataset.who = scene.who;
     [...el.pills.children].forEach((p, j) => p.setAttribute("aria-current", j === i ? "true" : "false"));
     el.bar.style.width = ((i + 1) / scenes.length) * 100 + "%";
@@ -412,7 +397,7 @@ export const demoPlayerScript = `
         if (!playing) return reject(Object.assign(new Error("pause"), { pause: true }));
         resolve();
       }, reduce ? Math.min(ms, 80) : ms);
-      // store for cancel — not needed beyond token
+      // store for cancel; not needed beyond token
       void t;
     });
   }

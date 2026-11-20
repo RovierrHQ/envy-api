@@ -36,9 +36,9 @@ export function mountMarketing(pages: Hono<AppEnv>) {
         <div class="shell">
           <section class="moves" data-reveal>
             <div class="move"><h3>Lock</h3><p>Derive once. Keychain holds the key. Passphrase stays in the team vault.</p></div>
-            <div class="move"><h3>Ship</h3><p><code>envy push</code> uploads ciphertext only. Stale versions get 409.</p></div>
+            <div class="move"><h3>Ship</h3><p><code>envy push</code> uploads dirty envs as ciphertext. Stale versions get 409.</p></div>
             <div class="move"><h3>Invite</h3><p>48-hour codes for read or write. Teammates Sign in with GitHub.</p></div>
-            <div class="move"><h3>Pull</h3><p>Decrypt onto disk. Commit <code>.envy.json</code>. Never <code>.env</code>.</p></div>
+            <div class="move"><h3>Pull</h3><p><code>envy pull</code> decrypts dirty envs onto disk. Commit <code>.envy.json</code>. Never <code>.env</code>.</p></div>
           </section>
         </div>
 
@@ -136,8 +136,8 @@ export function mountMarketing(pages: Hono<AppEnv>) {
             ${codeBlock("irm https://raw.githubusercontent.com/RovierrHQ/envy/main/scripts/install.ps1 | iex")}
             <p>Or <a href="${releaseUrl}">GitHub Releases</a>, <code>brew tap RovierrHQ/envy https://github.com/RovierrHQ/envy && brew install envy</code>, or Scoop. See the <a href="https://github.com/RovierrHQ/envy#install">CLI README</a>.</p>
             <h2>Hosted flow</h2>
-            ${codeBlock("envy login\nenvy init\nenvy push --env dev\nenvy pull --env dev")}
-            <p><code>envy init</code> defaults to this API. <code>envy login</code> opens <a href="/device">/device</a> with a code. Or <a href="${user ? "/account" : "/login"}">Sign in</a>, mint a token, then <code>envy login --token</code>.</p>
+            ${codeBlock("envy login\nenvy init\nenvy push\nenvy pull")}
+            <p><code>envy init</code> defaults to this API. Bare <code>envy push</code> / <code>envy pull</code> sync dirty envs (pass <code>--env</code> for one). <code>envy login</code> opens <a href="/device">/device</a> with a code. Or <a href="${user ? "/account" : "/login"}">Sign in</a>, mint a token, then <code>envy login --token</code>.</p>
             <h2>A second person</h2>
             ${codeBlock("envy invite create --role write\nenvy invite accept envy_inv_...")}
             <p>They Sign in first, accept, unlock with the shared passphrase, then pull. Passphrase stays in your team vault.</p>
@@ -195,6 +195,12 @@ export function mountMarketing(pages: Hono<AppEnv>) {
         `<div class="shell" style="padding:2rem 0 4rem">
           <h1>Changelog</h1>
           <div class="prose">
+            <h2>0.2.2</h2>
+            <ul>
+              <li>Bare <code>envy push</code> / <code>envy pull</code> sync all mapped envs; skip unchanged</li>
+              <li>Push auto-discovers root <code>.env*</code> into <code>.envy.json</code></li>
+              <li>Pass <code>--env</code> to target a single environment</li>
+            </ul>
             <h2>0.2.1</h2>
             <ul>
               <li>Install scripts with checksums, PATH, upgrade messaging, uninstall</li>
